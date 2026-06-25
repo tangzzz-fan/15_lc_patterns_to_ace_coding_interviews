@@ -24,12 +24,7 @@
 /// ## 空间复杂度
 /// - O(1)，只使用两个指针。
 
-// 链表节点定义
-class ListNode {
-  int val;
-  ListNode? next;
-  ListNode([this.val = 0, this.next]);
-}
+import '../lib/shared.dart';
 
 // ============================================================================
 // LeetCode #141: Linked List Cycle（Easy）

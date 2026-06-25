@@ -19,12 +19,7 @@
 /// ## 空间复杂度
 /// - O(V)，队列最多存 V 个节点。
 
-class TreeNode {
-  int val;
-  TreeNode? left;
-  TreeNode? right;
-  TreeNode([this.val = 0, this.left, this.right]);
-}
+import '../lib/shared.dart';
 
 // ============================================================================
 // LeetCode #102: Binary Tree Level Order Traversal（Medium）

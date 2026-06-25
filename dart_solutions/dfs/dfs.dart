@@ -20,18 +20,7 @@
 /// ## 空间复杂度
 /// - O(V)，递归栈/显式栈深度。
 
-class Node {
-  int val;
-  List<Node> neighbors;
-  Node(this.val, [List<Node>? neighbors]) : neighbors = neighbors ?? [];
-}
-
-class TreeNode {
-  int val;
-  TreeNode? left;
-  TreeNode? right;
-  TreeNode([this.val = 0, this.left, this.right]);
-}
+import '../lib/shared.dart';
 
 // ============================================================================
 // LeetCode #133: Clone Graph（Medium）
@@ -50,12 +39,12 @@ class TreeNode {
 //   2. 初始化 map<原节点, 克隆节点>
 //   3. 定义 dfs(original)：
 //      a. 如果 map.containsKey(original) → return map[original]!
-//      b. clone = Node(original.val); map[original] = clone
+//      b. clone = GraphNode(original.val); map[original] = clone
 //      c. 遍历 original.neighbors：clone.neighbors.add(dfs(neighbor))
 //      d. return clone
 //   4. 返回 dfs(node)
 
-Node? cloneGraph(Node? node) {
+GraphNode? cloneGraph(GraphNode? node) {
   // TODO: 边界检查
   // TODO: 创建 HashMap 映射原节点 → 克隆节点
   // TODO: DFS 递归克隆每个节点和邻居

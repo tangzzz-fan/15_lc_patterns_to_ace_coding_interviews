@@ -18,11 +18,7 @@
 /// ## 空间复杂度
 /// - O(1)，只使用常数量级指针变量。
 
-class ListNode {
-  int val;
-  ListNode? next;
-  ListNode([this.val = 0, this.next]);
-}
+import '../lib/shared.dart';
 
 // ============================================================================
 // LeetCode #206: Reverse Linked List（Easy）

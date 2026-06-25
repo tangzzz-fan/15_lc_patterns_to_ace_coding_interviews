@@ -19,12 +19,7 @@
 /// ## 空间复杂度
 /// - 递归：O(h) 递归栈深度；迭代：O(n) 显式栈。
 
-class TreeNode {
-  int val;
-  TreeNode? left;
-  TreeNode? right;
-  TreeNode([this.val = 0, this.left, this.right]);
-}
+import '../lib/shared.dart';
 
 // ============================================================================
 // LeetCode #257: Binary Tree Paths（Easy - 前序遍历）

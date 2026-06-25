@@ -1,0 +1,9 @@
+name: leetcode_list
+description: LeetCode 解题集合 — 按算法模式分类的练习框架
+version: 1.0.0
+
+environment:
+  sdk: ^3.9.0
+
+dev_dependencies:
+  test: ^1.25.0
