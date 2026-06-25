@@ -4,8 +4,8 @@
 ///
 /// ## 核心原理
 /// 使用两个指针，慢指针每次移动 1 步，快指针每次移动 2 步。
-/// 如果存在循环（环），快指针最终会"追上"慢指针（因为速度差为 1，快指针每轮缩小
-/// 与慢指针的差距 1 步）。如果不存在循环，快指针会到达终点（null）。
+/// 如果存在循环（环），快指针最终会"追上"慢指针（速度差为 1，每轮缩小差距 1 步）。
+/// 如果无环，快指针会到达终点。
 ///
 /// ## 适用场景
 /// - 链表判环（检测是否有环、找到环的入口）。
@@ -14,9 +14,9 @@
 /// - Happy Number（快乐数检测）。
 ///
 /// ## 关键技巧
-/// - Floyd 判圈算法（龟兔赛跑）：相遇 → 有环；fast 回到 head，同速前进 → 再次相遇点
-///   即为环的入口。
-/// - 寻找中点：快指针到末尾时，慢指针正好在中点。
+/// Floyd 判圈算法：
+///   阶段 1：快慢指针相遇 → 有环
+///   阶段 2：slow 回到 head，两者同速前进，再次相遇 → 环的入口
 ///
 /// ## 时间复杂度
 /// - O(n)，快指针最多走 n 步。
@@ -24,7 +24,7 @@
 /// ## 空间复杂度
 /// - O(1)，只使用两个指针。
 
-// ListNode 类定义（供链表相关题目使用）
+// 链表节点定义
 class ListNode {
   int val;
   ListNode? next;
@@ -32,159 +32,96 @@ class ListNode {
 }
 
 // ============================================================================
-// LeetCode #141: Linked List Cycle
+// LeetCode #141: Linked List Cycle（Easy）
 // ============================================================================
-// 所属模式：Fast & Slow Pointers（龟兔赛跑）
-// 难度：Easy
 // 题目描述：
-//   给定一个链表，判断链表中是否有环。
-//   如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。
-//   返回 true 如果链表中有环，否则返回 false。
+//   给定一个链表，判断链表中是否有环。如果有环返回 true，否则返回 false。
 //
-// 核心考点：
-//   - Floyd 判圈算法的基本使用。
-//   - 快指针走两步，慢指针走一步，相遇则有环。
-//
-// 解题思路推导：
-//   如果链表有环，快指针和慢指针最终都会进入环中。
-//   在环内，快指针速度是慢指针的两倍 → 快指针相对于慢指针的速度是 1 步/轮。
-//   因此，即使在最坏情况下，快指针也会在环内的一圈内追上慢指针。
-//   如果无环，快指针会先到达 null。
+// 解题思路（Floyd 判圈）：
+//   slow 走 1 步，fast 走 2 步
+//   - 如果 fast 能追上 slow → 有环
+//   - 如果 fast 到达 null → 无环
 //
 // 实现步骤：
-//   1. 初始化 slow = head, fast = head。
-//   2. while fast != null 且 fast.next != null：
-//      a. slow = slow.next（慢指针走一步）。
-//      b. fast = fast.next.next（快指针走两步）。
-//      c. 如果 slow == fast，说明相遇，有环，返回 true。
-//   3. 循环结束（fast 到达末尾），无环，返回 false。
+//   1. slow = head, fast = head
+//   2. while fast != null && fast.next != null：
+//      slow = slow.next（走 1 步）
+//      fast = fast.next.next（走 2 步）
+//      如果 slow == fast → 返回 true
+//   3. 返回 false
 
 bool hasCycle(ListNode? head) {
-  ListNode? slow = head;
-  ListNode? fast = head;
-
-  // 条件：确保 fast 和 fast.next 都不为 null（否则 fast.next.next 会报错）
-  while (fast != null && fast.next != null) {
-    slow = slow!.next; // 慢指针每次走 1 步
-    fast = fast.next!.next; // 快指针每次走 2 步
-
-    if (slow == fast) {
-      return true; // 相遇 → 有环
-    }
-  }
-
-  return false; // 快指针到达末尾 → 无环
+  // TODO: slow = head, fast = head
+  // TODO: while fast != null && fast.next != null:
+  //       slow = slow.next
+  //       fast = fast.next.next
+  //       若 slow == fast → return true
+  // TODO: return false
+  throw UnimplementedError(); // 请替换为你的实现
 }
 
 // ============================================================================
-// LeetCode #202: Happy Number
+// LeetCode #202: Happy Number（Easy）
 // ============================================================================
-// 所属模式：Fast & Slow Pointers（龟兔赛跑 - 隐式链表）
-// 难度：Easy
 // 题目描述：
-//   编写一个算法来判断一个数 n 是不是快乐数。
-//   「快乐数」定义为：
-//   - 对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和。
-//   - 然后重复这个过程直到这个数变为 1，也可能是无限循环 但始终变不到 1。
-//   - 如果可以变为 1，那么这个数就是快乐数。如果 n 是快乐数就返回 true。
+//   判断一个数 n 是不是快乐数。快乐数定义为：每次将该数替换为各位数字的平方和，
+//   重复此过程直到变为 1（是快乐数）或进入不含 1 的循环（不是快乐数）。
 //
-// 核心考点：
-//   - 将数字变换过程视为隐式链表，使用快慢指针检测循环。
-//   - 如果出现循环（非 1），则不是快乐数。
-//   - 计算各位数字平方和的辅助函数。
-//
-// 解题思路推导：
-//   将这个迭代过程看作一个"链表"：n 是头节点，next(n) 是下一个节点。
-//   问题转化为：这条链是否会到达 1（无环且终点为 1），还是进入一个不含 1 的循环。
-//   用快慢指针：如果无环会到 1；如果有环且环中不含 1，则不是快乐数。
+// 解题思路（隐式链表 + 快慢指针）：
+//   将数字变换过程看作一个隐式链表：n → next(n) → next(next(n)) → ...
+//   用快慢指针检测循环：
+//   - 如果 fast 到达 1 → 是快乐数
+//   - 如果 slow 和 fast 在非 1 位置相遇 → 不是快乐数（进入循环）
 //
 // 实现步骤：
-//   1. 定义辅助函数 getNext(int num)：计算各位数字平方和。
-//   2. 初始化 slow = n, fast = getNext(n)。
-//   3. while fast != 1 且 slow != fast：
-//      a. slow = getNext(slow)（走一步）。
-//      b. fast = getNext(getNext(fast))（走两步）。
-//   4. 返回 fast == 1（如果 fast 到达 1，则是快乐数）。
+//   1. 定义辅助函数 getNext(num)：计算各位数字的平方和
+//      - while num > 0: digit = num % 10; sum += digit * digit; num ~/= 10
+//   2. slow = n, fast = getNext(n)
+//   3. while fast != 1 && slow != fast：
+//      slow = getNext(slow)
+//      fast = getNext(getNext(fast))
+//   4. 返回 fast == 1
 
 bool isHappy(int n) {
-  // 辅助函数：计算一个数各位数字的平方和
-  int getNext(int num) {
-    int sum = 0;
-    while (num > 0) {
-      int digit = num % 10; // 取个位
-      sum += digit * digit; // 累加平方
-      num ~/= 10; // 去掉个位
-    }
-    return sum;
-  }
-
-  int slow = n;
-  int fast = getNext(n);
-
-  // 快指针到达 1 说明是快乐数；相遇说明进入循环（非快乐数）
-  while (fast != 1 && slow != fast) {
-    slow = getNext(slow);
-    fast = getNext(getNext(fast));
-  }
-
-  return fast == 1; // fast 到达 1 → 快乐数；相遇 → 非快乐数
+  // TODO: 实现 getNext 辅助函数（各位数字平方和）
+  // TODO: slow = n, fast = getNext(n)
+  // TODO: while fast != 1 && slow != fast:
+  //       slow = getNext(slow)
+  //       fast = getNext(getNext(fast))
+  // TODO: 返回 fast == 1
+  throw UnimplementedError(); // 请替换为你的实现
 }
 
 // ============================================================================
-// LeetCode #287: Find the Duplicate Number
+// LeetCode #287: Find the Duplicate Number（Medium）
 // ============================================================================
-// 所属模式：Fast & Slow Pointers（龟兔赛跑 - 数组隐式链表 + Floyd 判圈）
-// 难度：Medium
 // 题目描述：
-//   给定一个包含 n + 1 个整数的数组 nums，所有整数都在 [1, n] 范围内。
-//   数组中只有一个重复的数字，返回这个重复的数字。
-//   要求：不修改数组 nums，只用常量级 O(1) 额外空间，时间复杂度 O(n)。
+//   给定一个包含 n+1 个整数的数组 nums，数字都在 [1, n] 内。只有一个数字重复。
+//   找出这个重复数字。要求：不修改数组，O(1) 额外空间，O(n) 时间。
 //
-// 核心考点：
-//   - 将数组下标到值的映射视为链表的 next 指针。
-//   - Floyd 判圈法找到环的入口（即重复数）。
-//   - 满足 O(1) 空间复杂度的要求。
+// 解题思路（数组视为隐式链表 + Floyd 判圈）：
+//   数组下标 → 值的映射就是链表的 next 指针
+//   nums[i] 就是节点 i 的 next 指向
+//   由于数字范围 [1, n]，每个元素都是有效下标
+//   重复数字意味着有两个节点指向同一个 next → 形成了环！
+//   环的入口节点 = 重复数字
 //
-// 解题思路推导：
-//   关键转化：把数组看作一个链表，nums[i] 就是节点 i 的 next 指针。
-//   由于数字在 [1, n] 范围，数组长度为 n+1，每个数字都是有效下标。
-//   重复数字意味着有两个节点指向同一个 next，形成环。
-//   环的入口就是重复数字！
-//
-//   举例：nums = [1,3,4,2,2]
-//   0 → 1 → 3 → 2 → 4 → 2（环入口是 2）
-//
-//   Floyd 判圈两步走：
-//   - 阶段 1：快慢指针找相遇点（证明有环）。
-//   - 阶段 2：slow 回到 0，fast 在相遇点，两者同速前进，再次相遇即为环入口。
-//
-// 实现步骤：
-//   阶段 1：
-//     1. 初始化 slow = nums[0], fast = nums[nums[0]]。
+// 实现步骤（两阶段）：
+//   阶段 1（找相遇点）：
+//     1. slow = nums[0], fast = nums[nums[0]]
 //     2. while slow != fast：
-//        slow = nums[slow]，fast = nums[nums[fast]]。
-//   阶段 2：
-//     3. slow = 0（回到起点）。
+//        slow = nums[slow]（1 步）
+//        fast = nums[nums[fast]]（2 步）
+//   阶段 2（找环入口 = 重复数）：
+//     3. slow = 0（回到起点）
 //     4. while slow != fast：
-//        slow = nums[slow]，fast = nums[fast]（同速前进）。
-//     5. 返回 slow（即环入口/重复数字）。
+//        slow = nums[slow]（同速前进）
+//        fast = nums[fast]
+//     5. 返回 slow
 
 int findDuplicate(List<int> nums) {
-  // 阶段 1：找到相遇点
-  int slow = nums[0];
-  int fast = nums[nums[0]]; // 等价于 fast = nums[slow]
-
-  while (slow != fast) {
-    slow = nums[slow]; // 慢指针走 1 步
-    fast = nums[nums[fast]]; // 快指针走 2 步
-  }
-
-  // 阶段 2：找到环的入口（重复数字）
-  slow = 0; // 慢指针回到起点
-  while (slow != fast) {
-    slow = nums[slow]; // 两者同速前进
-    fast = nums[fast];
-  }
-
-  return slow; // 环的入口 = 重复数字
+  // TODO: 阶段 1：slow=nums[0], fast=nums[nums[0]]，找相遇点
+  // TODO: 阶段 2：slow=0，slow 和 fast 同速前进，相遇即环入口
+  // TODO: 返回 slow
+  throw UnimplementedError(); // 请替换为你的实现
 }

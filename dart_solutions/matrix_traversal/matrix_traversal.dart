@@ -3,235 +3,112 @@
 /// ---------------------------------------------------------------------------
 ///
 /// ## 核心原理
-/// 在二维网格上使用 DFS 或 BFS 遍历。核心操作：
-/// - 4 方向移动：上下左右（岛屿、迷宫类问题）。
-/// - 8 方向移动：包括对角线（扫雷类问题）。
+/// 在二维网格上使用 DFS 或 BFS 进行遍历。核心操作：
+/// - 4 方向移动（上下左右）：岛屿、迷宫类问题。
+/// - 8 方向移动（含对角线）：扫雷类问题。
 /// - 边界检查：防止越界。
-/// - 访问标记：原地修改（如 grid[r][c] = '#'）或布尔数组，防止重复访问。
-/// - Flood Fill（洪水填充）：从起始点出发，将连通区域填充为新值。
+/// - 访问标记：原地修改（grid[r][c] = '#'）或 visited 数组，防止重复访问。
 ///
 /// ## 适用场景
-/// - 岛屿数量及其变体（最大岛屿面积、岛屿周长）。
+/// - 岛屿数量及变体（最大岛屿面积、岛屿周长）。
 /// - 被围绕的区域。
 /// - 迷宫最短路径。
-/// - 图像填充（Flood Fill）。
+/// - 图像洪水填充（Flood Fill）。
 ///
 /// ## 时间复杂度
 /// - O(m × n)，每个单元格最多访问一次。
 ///
 /// ## 空间复杂度
-/// - DFS：O(m × n) 递归栈深度（最坏全连通）。
-/// - BFS：O(min(m, n)) 队列大小（最坏情况）。
+/// - DFS：O(m × n) 递归栈深度；BFS：O(min(m, n)) 队列大小。
 
 // ============================================================================
-// LeetCode #733: Flood Fill
+// LeetCode #733: Flood Fill（Easy）
 // ============================================================================
-// 所属模式：Matrix Traversal（矩阵遍历 - DFS/BFS 洪水填充）
-// 难度：Easy
 // 题目描述：
-//   有一幅以 m×n 二维整数数组表示的图画 image，其中 image[i][j] 表示像素值。
-//   给定三个整数 sr、sc 和 color，从 image[sr][sc] 开始执行「洪水填充」操作。
-//   洪水填充：将起始像素和所有与其上下左右相邻且颜色相同的像素都改为 color。
-//   返回修改后的图像。
+//   从 image[sr][sc] 开始执行洪水填充：将起始像素和所有 4 方向相邻且颜色相同的
+//   像素都改为新颜色 color。返回修改后的图像。
 //
-// 核心考点：
-//   - Flood Fill 算法的标准实现（DFS 或 BFS）。
-//   - 边界条件：如果起始颜色已经是目标颜色，直接返回。
-//   - 4 方向递归填充。
-//
-// 解题思路推导：
-//   这是 DFS/BFS 的经典入门题。从 (sr, sc) 出发，向 4 方向扩散：
-//   - 如果新位置在边界内 且 颜色等于 originalColor → 修改颜色并继续递归。
-//   - 否则停止。
-//
-//   注意：如果 originalColor == newColor，直接返回，否则会无限递归。
+// 解题思路（DFS 洪水填充）：
+//   1. 保存 originalColor = image[sr][sc]
+//   2. 如果 originalColor == color → 直接返回（防止无限递归）
+//   3. DFS 向 4 方向扩散：颜色匹配则填充并继续递归，否则停止
 //
 // 实现步骤：
-//   1. 保存 originalColor = image[sr][sc]。
-//   2. 如果 originalColor == color，直接返回 image（防止无限递归）。
+//   1. originalColor = image[sr][sc]
+//   2. 如果 originalColor == color → 返回 image
 //   3. 定义 dfs(r, c)：
-//      a. 边界检查：r、c 是否在有效范围内。
-//      b. 如果 image[r][c] != originalColor，返回。
-//      c. image[r][c] = color（填充新颜色）。
-//      d. 对 4 个方向递归调用 dfs。
-//   4. 调用 dfs(sr, sc)。
-//   5. 返回 image。
+//      a. 越界检查（r < 0 || r >= rows || c < 0 || c >= cols）→ 返回
+//      b. 如果 image[r][c] != originalColor → 返回
+//      c. image[r][c] = color
+//      d. dfs(r-1, c); dfs(r+1, c); dfs(r, c-1); dfs(r, c+1)
+//   4. dfs(sr, sc)
+//   5. 返回 image
 
 List<List<int>> floodFill(List<List<int>> image, int sr, int sc, int color) {
-  int originalColor = image[sr][sc];
-
-  // 如果起始颜色已经是目标颜色，直接返回防止无限递归
-  if (originalColor == color) return image;
-
-  int rows = image.length;
-  int cols = image[0].length;
-
-  void dfs(int r, int c) {
-    // 边界检查
-    if (r < 0 || r >= rows || c < 0 || c >= cols) return;
-    // 颜色不匹配，停止
-    if (image[r][c] != originalColor) return;
-
-    // 填充新颜色
-    image[r][c] = color;
-
-    // 向 4 个方向递归填充
-    dfs(r - 1, c); // 上
-    dfs(r + 1, c); // 下
-    dfs(r, c - 1); // 左
-    dfs(r, c + 1); // 右
-  }
-
-  dfs(sr, sc);
-  return image;
+  // TODO: 保存 originalColor
+  // TODO: 边界条件：originalColor == color 时直接返回
+  // TODO: DFS 向 4 方向递归填充
+  // TODO: 返回 image
+  throw UnimplementedError(); // 请替换为你的实现
 }
 
 // ============================================================================
-// LeetCode #200: Number of Islands
+// LeetCode #200: Number of Islands（Medium）
 // ============================================================================
-// 所属模式：Matrix Traversal（矩阵遍历 - DFS 连通分量）
-// 难度：Medium
 // 题目描述：
-//   给定一个由 '1'（陆地）和 '0'（水）组成的二维网格，请计算网格中岛屿的数量。
-//   岛屿总是被水包围，并且每座岛屿只能由水平方向/竖直方向上相邻的陆地连接形成。
-//   假设网格的四个边缘都被水包围。
+//   给定 '1'（陆地）和 '0'（水）组成的二维网格。计算岛屿数量。
+//   岛屿是被水包围的、由 4 方向相邻陆地连接形成的区域。
 //
-// 核心考点：
-//   - 使用 DFS 标记已访问的陆地。
-//   - 统计连通分量个数。
-//   - 原地修改避免额外 visited 数组。
-//
-// 解题思路推导：
-//   遍历网格的每个单元格：
-//   - 如果遇到 '1'（未访问的陆地），岛屿计数 +1。
-//   - 然后使用 DFS 将该岛屿的所有陆地（包括通过 4 方向连通的部分）全部标记为 '0'
-//     （或者用其他标记），表示已访问。
-//   这样，后续遍历遇到这些位置时不会重复计数。
-//
-//   举例：grid = [["1","1","0","0"],["1","1","0","0"],["0","0","1","0"],["0","0","0","1"]]
-//   遍历到 (0,0)='1' → count=1，DFS 将 (0,0)(0,1)(1,0)(1,1) 标记为 0
-//   遍历到 (2,2)='1' → count=2，DFS 标记 (2,2)
-//   遍历到 (3,3)='1' → count=3，没有邻居
-//   结果：3 个岛屿
+// 解题思路（DFS 标记连通分量）：
+//   遍历每个单元格：
+//   - 遇到 '1'（新岛屿）→ count++
+//   - DFS 将该岛屿所有相连陆地标记为 '0'（水/已访问）
+//   这样后续遍历不会重复计数。
 //
 // 实现步骤：
-//   1. 初始化 count = 0。
-//   2. 遍历网格每个单元格：
-//      a. 如果 grid[r][c] == '1'：
-//         - count++。
-//         - 调用 dfs(r, c) 将所有相连的 '1' 标记为 '0'。
-//   3. 返回 count。
+//   1. 如果 grid 为空 → 返回 0
+//   2. count = 0
+//   3. 遍历所有单元格：
+//      a. 如果 grid[r][c] == '1'：count++; dfs(r, c)
+//   4. dfs(r, c)：
+//      a. 越界或遇水 → 返回
+//      b. grid[r][c] = '0'（标记已访问）
+//      c. 4 方向递归
+//   5. 返回 count
 
 int numIslands(List<List<String>> grid) {
-  if (grid.isEmpty) return 0;
-
-  int rows = grid.length;
-  int cols = grid[0].length;
-  int count = 0;
-
-  void dfs(int r, int c) {
-    // 越界或遇到水，停止
-    if (r < 0 || r >= rows || c < 0 || c >= cols) return;
-    if (grid[r][c] == '0') return;
-
-    // 标记为已访问（将陆地变为水）
-    grid[r][c] = '0';
-
-    // 向 4 个方向 DFS
-    dfs(r - 1, c); // 上
-    dfs(r + 1, c); // 下
-    dfs(r, c - 1); // 左
-    dfs(r, c + 1); // 右
-  }
-
-  for (int r = 0; r < rows; r++) {
-    for (int c = 0; c < cols; c++) {
-      if (grid[r][c] == '1') {
-        count++; // 发现新岛屿
-        dfs(r, c); // 淹没整个岛屿
-      }
-    }
-  }
-
-  return count;
+  // TODO: 空网格检查
+  // TODO: 遍历每个单元格，遇到陆地 → count++，DFS 淹没整个岛屿
+  // TODO: 返回 count
+  throw UnimplementedError(); // 请替换为你的实现
 }
 
 // ============================================================================
-// LeetCode #130: Surrounded Regions
+// LeetCode #130: Surrounded Regions（Medium）
 // ============================================================================
-// 所属模式：Matrix Traversal（矩阵遍历 - DFS 边界标记 + 反向思维）
-// 难度：Medium
 // 题目描述：
-//   给定一个 m×n 的矩阵 board，由字符 'X' 和 'O' 组成。找到所有被 'X' 围绕的区域，
-//   并将这些区域中的所有 'O' 用 'X' 填充。
-//   被围绕的区间不会存在于边界上，即任何边界上的 'O' 都不会被填充为 'X'。
-//   任何不在边界上，或与边界上的 'O' 相连的 'O' 最终都保留为 'O'。
+//   给定 m×n 矩阵，由 'X' 和 'O' 组成。找到所有被 'X' 围绕的 'O' 区域，
+//   将其中的 'O' 填充为 'X'。边界上的 'O' 及其连通的 'O' 不被填充。
 //
-// 核心考点：
-//   - 反向思维：标记"不应该被填充的 O"，其余都变为 X。
-//   - 从边界出发的 DFS/BFS。
-//   - 原地标记技巧。
-//
-// 解题思路推导：
-//   正向思维：找到被 X 围绕的 O 很难直接判断。
-//   反向思维：所有与边界 O 连通的 O 都是安全的（不会被填充）。
-//   因此：
-//   1. 从四条边界的 'O' 出发 DFS，把所有能到达的 'O' 标记为特殊字符（如 'S'）。
-//   2. 遍历整个矩阵：
-//      - 遇到 'S' → 改回 'O'（安全的）。
-//      - 遇到 'O' → 改为 'X'（被围绕的）。
-//      - 'X' 保持。
+// 解题思路（反向思维 + DFS 从边界出发）：
+//   正向找被围绕的 O 很难。反向思维：所有与边界 O 连通的 O 都是安全的。
+//   1. 从四条边界上的 'O' 出发 DFS，标记为临时字符 'S'（安全）
+//   2. 遍历矩阵：'S' → 'O'（恢复安全），'O' → 'X'（被围绕）
 //
 // 实现步骤：
-//   1. 遍历四条边界的单元格：
-//      a. 如果 board[r][c] == 'O'，调用 dfs(r, c) 标记为 'S'。
+//   1. 如果 board 为空 → 返回
 //   2. 定义 dfs(r, c)：
-//      a. 边界 + 'O' 检查。
-//      b. board[r][c] = 'S'（临时标记）。
-//      c. 4 方向递归。
-//   3. 遍历整个矩阵：
-//      a. 'S' → 'O'（恢复安全区域）。
-//      b. 'O' → 'X'（被围绕的区域）。
-//   4. 返回（原地修改）。
+//      a. 越界或 != 'O' → 返回
+//      b. board[r][c] = 'S'
+//      c. 4 方向递归
+//   3. 遍历四条边界：遇到 'O' 就 dfs
+//   4. 遍历整个矩阵：
+//      a. 'S' → 'O'（恢复）
+//      b. 'O' → 'X'（被围绕）
 
 void solve(List<List<String>> board) {
-  if (board.isEmpty) return;
-
-  int rows = board.length;
-  int cols = board[0].length;
-
-  // DFS 将边界的 'O' 及与其连通的 'O' 标记为 'S'
-  void dfs(int r, int c) {
-    if (r < 0 || r >= rows || c < 0 || c >= cols) return;
-    if (board[r][c] != 'O') return;
-
-    board[r][c] = 'S'; // 标记为安全
-
-    // 4 方向递归
-    dfs(r - 1, c);
-    dfs(r + 1, c);
-    dfs(r, c - 1);
-    dfs(r, c + 1);
-  }
-
-  // 从四条边界的 'O' 开始 DFS
-  for (int r = 0; r < rows; r++) {
-    if (board[r][0] == 'O') dfs(r, 0); // 左边界
-    if (board[r][cols - 1] == 'O') dfs(r, cols - 1); // 右边界
-  }
-  for (int c = 0; c < cols; c++) {
-    if (board[0][c] == 'O') dfs(0, c); // 上边界
-    if (board[rows - 1][c] == 'O') dfs(rows - 1, c); // 下边界
-  }
-
-  // 更新矩阵
-  for (int r = 0; r < rows; r++) {
-    for (int c = 0; c < cols; c++) {
-      if (board[r][c] == 'S') {
-        board[r][c] = 'O'; // 恢复安全区域
-      } else if (board[r][c] == 'O') {
-        board[r][c] = 'X'; // 被围绕的区域
-      }
-    }
-  }
+  // TODO: 空矩阵检查
+  // TODO: DFS 从边界 'O' 出发，标记为 'S'
+  // TODO: 遍历矩阵：'S'→'O'，'O'→'X'
+  throw UnimplementedError(); // 请替换为你的实现
 }
