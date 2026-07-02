@@ -2,9 +2,9 @@
 
 按**算法模式**分类的 LeetCode 练习框架，基于 Dart 语言。每个模式提供完整的解题思路注释 + 空代码骨架 + 配套测试用例。
 
-> 15 种模式源自 [Ashish Pratap Singh](https://blog.algomaster.io) 的博文 **[15 LeetCode Patterns to Ace Coding Interviews](https://blog.algomaster.io/p/15-leetcode-patterns)**，这是一个广受好评的技术面试刷题框架。本文对该框架进行了中文翻译与总结，并构建了可直接使用的 Dart 练习环境。
+> 其中 15 种核心模式源自 [Ashish Pratap Singh](https://blog.algomaster.io) 的博文 **[15 LeetCode Patterns to Ace Coding Interviews](https://blog.algomaster.io/p/15-leetcode-patterns)**。在此基础上，仓库补充了 1 个高频扩展模式 `Circular Buffer Queue`，形成当前的 16 模式练习框架。
 
-## 15 种算法模式
+## 16 种算法模式
 
 | # | 模式 | 难度 | 面试频率 | 核心思想 | 推荐题 |
 |---|------|------|----------|----------|--------|
@@ -23,8 +23,9 @@
 | 13 | **Matrix Traversal** 矩阵遍历 | ⭐⭐ | 中高 | 二维网格 DFS/BFS，4 方向 + 边界检查 | #733, #200, #130 |
 | 14 | **Backtracking** 回溯 | ⭐⭐⭐ | 中高 | 选择→递归→撤销，排列/组合/N皇后 | #46, #78, #51 |
 | 15 | **Dynamic Programming** 动态规划 | ⭐⭐⭐ | 极高 | 重叠子问题 + 最优子结构，fib/背包/LCS/LIS | #70, #198, #322, #1143, #300, #416 |
+| 16 | **Circular Buffer Queue** 环形缓冲队列 | ⭐⭐ | 中 | 固定容量数组 + 取模回绕，支持 O(1) 队列/双端队列操作 | #622, #641, #933 |
 
-> 共 **15 个模式，45 道核心题**。掌握一个模式就能解决一类问题，而非孤立地刷题。
+> 共 **16 个模式，48 道核心题**。掌握一个模式就能解决一类问题，而非孤立地刷题。
 
 ## 建议扩展的模式
 
@@ -39,7 +40,7 @@
 | 🟡 中 | **Design** 设计题 | 中高 | LRU Cache、Min Stack，考察工程思维 | #146, #155, #380 |
 | 🟢 低 | **Line Sweep** 扫描线 | 中 | 会议室 II、天际线，区间处理进阶 | #253, #218 |
 
-> **建议**：备考时间 ≤ 3 周先把核心 15 个模式吃透（45 题）；时间 4 周以上优先补充 🔴 高优先级 2 个模式（+6 题），可按需再补 🟡 中优先级。
+> **建议**：备考时间 ≤ 3 周先把核心 16 个模式吃透（48 题）；时间 4 周以上优先补充 🔴 高优先级 2 个模式（+6 题），可按需再补 🟡 中优先级。
 
 ## 项目结构
 
@@ -76,6 +77,8 @@ dart_solutions/
 │   └── matrix_traversal.dart      # 矩阵遍历
 ├── backtracking/
 │   └── backtracking.dart          # 回溯
+├── circular_buffer_queue/
+│   └── circular_buffer_queue.dart # 环形缓冲队列
 ├── dynamic_programming/
 │   └── dynamic_programming.dart   # 动态规划
 └── test/                          # 133 个测试用例
